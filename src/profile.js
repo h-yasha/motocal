@@ -4,7 +4,7 @@ var intl = require('./translate.js');
 var GlobalConst = require('./global_const.js');
 var TextWithTooltip = GlobalConst.TextWithTooltip;
 var CreateClass = require('create-react-class');
-
+var EnemyDefense = require('./enemy_defense.js');
 // const
 var zenith = GlobalConst.zenith;
 var zenithDA = GlobalConst.zenithDA;
@@ -194,6 +194,8 @@ var Profile = CreateClass({
             hp: 100,
             remainHP: 100,
             enemyElement: "wind",
+            manualEnemyDefense: false,
+            perCharaEnemyDefense: false,
             enemyDefense: 10.0,
             defenseDebuff: 0.0,
             enemyResistance: 0.0,
@@ -245,12 +247,18 @@ var Profile = CreateClass({
     handleSelectEvent: function (key, e) {
         // A select type input form is good for onChange
         var newState = this.state;
+
         if (Array.isArray(key)) {
             if (key.length == 3 && (key[0] == 'criticalBuff' || key[0] == 'personalCriticalBuff')) {
                 newState[key[0]][key[1]][key[2]] = e.target.value/100;
             }
         } else if (e.target.type === "checkbox") {
             newState[key] = e.target.checked;
+            if (key == 'perCharaEnemyDefense') {
+                EnemyDefense.perCharaEnemyDefense = this.state.perCharaEnemyDefense;
+            } else if (key == 'manualEnemyDefense') {
+                newState.enemyDefense = newState.enemyDefense in GlobalConst.enemyDefenseType ? newState.enemyDefense : 10.0;
+           }
         } else {
             newState[key] = e.target.value;
         }
@@ -952,11 +960,31 @@ var Profile = CreateClass({
                         </td>
                     </tr>
 
+                    
                     <TextWithTooltip tooltip={intl.translate("敵防御固有値説明", locale)} id={"tooltip-enemy-defense-detail"}>
                         <tr>
-                            <th className="bg-primary">{intl.translate("敵防御固有値", locale)}</th>
-                            <td><FormControl componentClass="select" value={this.state.enemyDefense}
-                                             onChange={this.handleSelectEvent.bind(this, "enemyDefense")}> {selector[locale].enemydeftypes} </FormControl>
+                            <th className="bg-primary">
+                                {intl.translate("敵防御固有値", locale)}
+                                <Checkbox inline checked={this.state.manualEnemyDefense}
+                                          onChange={this.handleSelectEvent.bind(this, "manualEnemyDefense")}>
+                                 <strong>{intl.translate("素敵な防御値", locale)}</strong>
+                                </Checkbox>
+                            </th>
+                            <td>
+                                <Checkbox inline checked={this.state.perCharaEnemyDefense}
+                                          onChange={this.handleSelectEvent.bind(this, "perCharaEnemyDefense")}>
+                                 <strong>{intl.translate("キャラ特定の敵防御", locale)}</strong>
+                                </Checkbox>
+                                {this.state.manualEnemyDefense
+                                 ?
+                                    <FormControl type="number" min="0" step="0.5" value={this.state.enemyDefense}
+                                                 onBlur={this.handleOnBlur}
+                                                 onChange={this.handleEvent.bind(this, "enemyDefense")}/>
+                                 :
+                                    <FormControl componentClass="select" value={this.state.enemyDefense}
+                                                 onChange={this.handleSelectEvent.bind(this, "enemyDefense")}> {selector[locale].enemydeftypes} </FormControl>
+                                }
+                                
                             </td>
                         </tr>
                     </TextWithTooltip>
@@ -1008,6 +1036,7 @@ var Profile = CreateClass({
                             </InputGroup></td>
                         </tr>
                     </TextWithTooltip>
+                    
                     <TextWithTooltip tooltip={intl.translate("ジータさん基礎TA率説明", locale)}
                                      id={"tooltip-player-baseta-detail"}>
                         <tr>

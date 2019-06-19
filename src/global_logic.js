@@ -401,6 +401,16 @@ module.exports.calcBasedOneSummon = function (summonind, prof, buff, totals) {
     for (var key in totals) {
         var totalSummon = totals[key]["totalSummon"][summonind];
 
+        // proccess enemy defense:
+        var enemyDefense = 10.0;
+        var enemyDefenseDebuff = 0.0;
+        if (prof.perCharaEnemyDefense) {   
+            enemyDefense = totals[key].enemyDefense;
+            enemyDefenseDebuff = totals[key].enemyDefenseDebuff;
+        } else {
+            enemyDefense = totals["Djeeta"].enemyDefense;
+            enemyDefenseDebuff = totals["Djeeta"].defenseDebuff;
+
         // hp magnification
         var hpCoeff = 1.0;
         hpCoeff += 0.01 * totals[key]["normalHP"] * totalSummon["zeus"];
@@ -699,12 +709,11 @@ module.exports.calcBasedOneSummon = function (summonind, prof, buff, totals) {
         var chainDamageLimit = 0.01 * (totals[key]["chainDamageLimit"] + (totals[key]["normalChainDamageLimit"] * totalSummon["zeus"]));
         chainDamageLimit = Math.min(0.50, chainDamageLimit);
         
-
         // "damage" is a single attack damage without additional damage (with attenuation and skill correction)
-        var damage = module.exports.calcDamage(summedAttack, totalSkillCoeff, criticalRatio, prof.enemyDefense, prof.defenseDebuff, enemyResistance, additionalDamage, damageUP, criticalDamageLimit);
+        var damage = module.exports.calcDamage(summedAttack, totalSkillCoeff, criticalRatio, enemyDefense, enemyDefenseDebuff, enemyResistance, additionalDamage, damageUP, criticalDamageLimit);
 
         // Use damage in case of no critical to correct skill expectation
-        var damageWithoutCritical = module.exports.calcDamage(summedAttack, totalSkillCoeff, 1.0, prof.enemyDefense, prof.defenseDebuff, enemyResistance, additionalDamage, damageUP, damageLimit);
+        var damageWithoutCritical = module.exports.calcDamage(summedAttack, totalSkillCoeff, 1.0, enemyDefense, enemyDefenseDebuff, enemyResistance, additionalDamage, damageUP, damageLimit);
 
         // Expected critical skill ratio
         var effectiveCriticalRatio = damage / damageWithoutCritical;
@@ -748,7 +757,7 @@ module.exports.calcBasedOneSummon = function (summonind, prof, buff, totals) {
         var debuffResistance = 100 * (1.0 + debuffResistanceByHigo) * (1.0 + debuffResistanceByNormal) - 100;
         debuffResistance += 100 * totals[key]["debuffResistanceBuff"];
 
-        var ougiDamage = module.exports.calcOugiDamage(summedAttack, totalSkillCoeff, criticalRatio, prof.enemyDefense, prof.defenseDebuff, enemyResistance, totals[key]["ougiRatio"], ougiDamageUP, damageUP, criticalOugiDamageLimit);
+        var ougiDamage = module.exports.calcOugiDamage(summedAttack, totalSkillCoeff, criticalRatio, enemyDefense, enemyDefenseDebuff, enemyResistance, totals[key]["ougiRatio"], ougiDamageUP, damageUP, criticalOugiDamageLimit);
 
         var chainBurstSupplemental = 0;
         //Supplemental Damage is a "static" damage that is added after damage cap/defense/etc is calculated.
@@ -934,6 +943,9 @@ module.exports.calcBasedOneSummon = function (summonind, prof, buff, totals) {
             expectedCycleDamagePerTurn: expectedCycleDamagePerTurn,
             exlbHaisui: totals[key]["EXLB"]["Haisui"],
             exlbKonshin: totals[key]["EXLB"]["Konshin"],
+            //enemyDefense vals
+            enemyDefense: enemyDefense,
+            enemyDefenseDebuff: enemyDefenseDebuff,
         };
     }
 
@@ -2272,6 +2284,8 @@ module.exports.getInitialTotals = function (prof, chara, summon) {
                 covenant: null,
                 buffCount: 0,
                 //debuffCount: 0,
+                enemyDefense: prof.enemyDefense,
+                enemyDefenseDebuff: prof.defenseDebuff,
             }
     };
 
@@ -2441,6 +2455,8 @@ module.exports.getInitialTotals = function (prof, chara, summon) {
                 covenant: null,
                 //buffCount: 0,
                 //debuffCount: 0,
+                enemyDefense: chara[i].enemyDefense,
+                enemyDefenseDebuff: chara[i].defenseDebuff,
             };
         }
     }
@@ -3127,8 +3143,9 @@ module.exports.generateHaisuiData = function (res, arml, summon, prof, chara, st
                     var newTotalAttack = summedAttack * newTotalSkillCoeff;
                     var newTotalExpected = newTotalAttack * onedata[key].criticalRatio * onedata[key].expectedAttack;
 
-                    var newDamage = module.exports.calcDamage(summedAttack, newTotalSkillCoeff, onedata[key].criticalRatio, prof.enemyDefense, prof.defenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].skilldata.additionalDamage, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalDamageLimit)
-                    var newOugiDamage = module.exports.calcOugiDamage(summedAttack, newTotalSkillCoeff, onedata[key].criticalRatio, prof.enemyDefense, prof.defenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalOugiDamageLimit)
+                    var newDamage = module.exports.calcDamage(summedAttack, newTotalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].skilldata.additionalDamage, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalDamageLimit)
+                    var newOugiDamage = module.exports.calcOugiDamage(summedAttack, newTotalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalOugiDamageLimit)
+
                     var chainBurstSupplemental = 0;
                     var newDamageWithoutCritical = 0; //just a placeholder. not to be used in any calculation.
                     [newDamage, newDamageWithoutCritical, newOugiDamage, chainBurstSupplemental] = supplemental.calcOthersDamage(onedata[key].skilldata.supplementalDamageArray, [newDamage, newDamageWithoutCritical, newOugiDamage, chainBurstSupplemental], {remainHP: k/100});
@@ -3375,7 +3392,7 @@ module.exports.generateSimulationData = function (res, turnBuff, arml, summon, p
                 for (var key in onedata) {
                     if (turnBuff.buffs["全体バフ"][t - 1].turnType == "ougi" || turnBuff.buffs[key][t - 1].turnType == "ougi") {
                         // Basically, setting of mystery takes precedence
-                        var newOugiDamage = module.exports.calcOugiDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, prof.enemyDefense, prof.defenseDebuff, onedata[key].skilldata.enemyResistance, prof.ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalOugiDamageLimit);
+                        var newOugiDamage = module.exports.calcOugiDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, prof.ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.ougiDamageLimit);
 
                         if (key == "Djeeta") {
                             ExpectedDamage[t].push(parseInt(newOugiDamage));
@@ -3391,7 +3408,7 @@ module.exports.generateSimulationData = function (res, turnBuff, arml, summon, p
                         }
                     } else {
                         // Regular attack
-                        var newDamage = module.exports.calcDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, prof.enemyDefense, prof.defenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].skilldata.additionalDamage, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalDamageLimit);
+                        var newDamage = module.exports.calcDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, onedata[key].skilldata.enemyResistance, onedata[key].skilldata.additionalDamage, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalDamageLimit);
                         if (key == "Djeeta") {
                             ExpectedDamage[t].push(parseInt(newDamage * onedata[key].expectedAttack));
                             AverageExpectedDamage[t][j + 1] += parseInt(onedata[key].expectedAttack * newDamage / cnt)
