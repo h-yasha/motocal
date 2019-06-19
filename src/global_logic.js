@@ -410,7 +410,7 @@ module.exports.calcBasedOneSummon = function (summonind, prof, buff, totals) {
         } else {
             enemyDefense = totals["Djeeta"].enemyDefense;
             enemyDefenseDebuff = totals["Djeeta"].defenseDebuff;
-
+        }
         // hp magnification
         var hpCoeff = 1.0;
         hpCoeff += 0.01 * totals[key]["normalHP"] * totalSummon["zeus"];
