@@ -490,6 +490,7 @@ var multiLangData = {
         "en": ": Inactive",
         "ja": ": 無効",
         "zh": ": Inactive",
+    },
     "敵非有利耐性": {
         "en": "Enemy Resistance",
         "ja": "敵非有利耐性",
