@@ -2806,11 +2806,11 @@ module.exports.treatSupportAbility = function (totals, chara, buff) {
                     continue;
                 case "tousou_no_chishio":
                     if (totals[key]['remainHP'] <= 1 && totals[key]['remainHP'] > 0.6) {
-                        totals[key]["DABuff"] += 0.10;
+                        totals[key]["DASupport"] += 0.10;
                         totals[key]["damageLimitBuff"] += 0.0;
                         totals[key]["ougiDamageLimitBuff"] += 0.0;
                     } else if (totals[key]['remainHP'] <= 0.6 && totals[key]['remainHP'] > 0.4) {
-                        totals[key]["DABuff"] += 0.20;
+                        totals[key]["DASupport"] += 0.20;
                         totals[key]["damageLimitBuff"] += 0.10;
                         totals[key]["ougiDamageLimitBuff"] += 0.0;
                     } else if (totals[key]['remainHP'] <= 0.4 && totals[key]['remainHP'] > 0.2) {
@@ -2818,7 +2818,7 @@ module.exports.treatSupportAbility = function (totals, chara, buff) {
                         totals[key]["damageLimitBuff"] += 0.20;
                         totals[key]["ougiDamageLimitBuff"] += 0.15;
                     } else {
-                        totals[key]["DABuff"] += 0.40;
+                        totals[key]["DASupport"] += 0.40;
                         totals[key]["damageLimitBuff"] += 0.30;
                         totals[key]["ougiDamageLimitBuff"] += 0.20;
                     }
@@ -3398,7 +3398,7 @@ module.exports.generateSimulationData = function (res, turnBuff, arml, summon, p
                 for (var key in onedata) {
                     if (turnBuff.buffs["全体バフ"][t - 1].turnType == "ougi" || turnBuff.buffs[key][t - 1].turnType == "ougi") {
                         // Basically, setting of mystery takes precedence
-                        var newOugiDamage = module.exports.calcOugiDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, prof.ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.ougiDamageLimit, onedata[key].ougiFixedDamage);
+                        var newOugiDamage = module.exports.calcOugiDamage(onedata[key].displayAttack, onedata[key].totalSkillCoeff, onedata[key].criticalRatio, onedata[key].enemyDefense, onedata[key].enemyDefenseDebuff, onedata[key].skilldata.enemyResistance, prof.ougiRatio, onedata[key].skilldata.ougiDamageUP, onedata[key].skilldata.damageUP, onedata[key].skilldata.criticalOugiDamageLimit, onedata[key].ougiFixedDamage);
 
                         if (key == "Djeeta") {
                             ExpectedDamage[t].push(parseInt(newOugiDamage));
