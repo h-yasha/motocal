@@ -120,7 +120,6 @@ supportAbilist["emnity_all_SL10"] = {
 supportAbilist["emnity_own_SL20"] = {
    u"ダーク・ラピュセル",
    u"絶望の剣",
-   u"砂神グラフォスの慈愛",
    u"砂神グラフォスの慈愛"
 }
 supportAbilist["envoy_meditation"] = {
@@ -260,6 +259,13 @@ supportAbilist["stamina_all_L"] = {
     u"夏祭りの思い出",
     u"不退転の戦旗",
     u"絶対だいじょうぶだよ"
+}
+supportAbilist["stamina_all_M"] = {
+    u"黒の騎士団 総司令"
+}
+supportAbilist["knightmare_frame"] = {
+  u"人型自在戦闘装甲騎",
+  u"ナイトメアフレーム"
 }
 supportAbilist["stamina_all_L_hp_down_own_15"] = {
     u"真夏の夜の夢"

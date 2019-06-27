@@ -2775,6 +2775,10 @@ module.exports.treatSupportAbility = function (totals, chara, buff) {
                     totals[key]["charaUniqueDamageUP"] += 0.15;
                     totals[key]["HPBuff"] += 0.20;
                     continue;
+                case "knightmare_frame":
+                    totals[key]["HPBuff"] += 0.15;
+                    totals[key]["ougiGageBuff"] -= 0.25;
+                    continue;
                 case "charaDamageUP_OugiCap":
                     totals[key]["charaDamageUP"] += support.value;
                     totals[key]["ougiDamageLimitBuff"] += support.value;
