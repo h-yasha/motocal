@@ -267,9 +267,9 @@ var multiLangData = {
         "zh": "Critical Buff",
     },
     "クリティカルバフ説明": {
-        "en": "",
-        "ja": "",
-        "zh": "",
+        "en": "Critical Buffs.",
+        "ja": "クリティカルバフ",
+        "zh": "Critical Buffs.",
     },
     "発動率": {
         "en": "Hit Rate ",
@@ -499,7 +499,7 @@ var multiLangData = {
     },
     "烈日の楽園説明": {
         "en": "All Allies gain 25% normal buff, and can deal critical hits regardless of element. (Alanaan)",
-        "ja": "対象の属性に関係なくに味方のクリティカル発生し、味方の通常攻刃わ25%UP。(アラナン)",
+        "ja": "対象の属性に関係なく味方のクリティカルが発生し、味方の通常攻刃25%UP。(アラナン)",
         "zh": "All Allies gain 25% normal buff, and can deal critical hits regardless of element. (Alanaan)",
     },
     "アクティブ": {

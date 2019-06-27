@@ -5,6 +5,7 @@ var CreateClass = require('create-react-class');
 var {RegisteredChara} = require('./template.js');
 var EnemyDefense = require('./enemy_defense.js');
 var GlobalConst = require('./global_const.js');
+var {CriticalBuffList} = require('./components.js');
 
 // inject GlobalConst...
 var elementRelation = GlobalConst.elementRelation;
@@ -399,20 +400,29 @@ var Chara = CreateClass({
     handleEvent: function (key, e) {
         var newState = this.state;
         newState[key] = e.target.value;
+
+        if (key == "criticalBuffCount") {
+            if (newState.criticalBuff.length > newState.criticalBuffCount) {
+                newState.criticalBuff = newState.criticalBuff.slice(0, newState.criticalBuffCount);
+            }
+            for (let i = 0; i < newState.criticalBuffCount; i++) {
+                if (newState.criticalBuff[i] == undefined) {
+                    newState.criticalBuff[i] = {"value": 0.0, "attackRatio": 0.0};
+                }
+            }
+        }
+
         this.setState(newState)
     },
     handleSelectEvent: function (key, e) {
         var newState = this.state;
 
-        if (Array.isArray(key)) {
-            if (key.length == 3 && key[0] == "criticalBuff") {
-                newState[key[0]][key[1]][key[2]] = e.target.value/100;
-            }
-        } else if (e.target.type === "checkbox") {
+        if (e.target.type === "checkbox") {
             newState[key] = e.target.checked;
         } else {
             newState[key] = e.target.value;
         }
+
         this.setState(newState);
         this.props.onChange(this.props.id, newState, false);
     },
@@ -450,23 +460,6 @@ var Chara = CreateClass({
     },
     render: function () {
         var locale = this.props.locale;
-        var criticalBuffRender = [];
-        if (this.state.criticalBuff.length != this.state.criticalBuffCount) this.state.criticalBuff = this.state.criticalBuff.slice(0, this.state.criticalBuffCount);
-        for (var i = 0; i < this.state.criticalBuffCount; i++) {
-            if (this.state.criticalBuff[i] == undefined) this.state.criticalBuff[i] = {"value": 0.0, "attackRatio": 0.0};
-                criticalBuffRender[i] = (
-                <div key={"criticalBuff" + i}>
-                   <hr/>
-                   <strong>{intl.translate("発動率", locale)}#{i+1}</strong>
-                   <InputGroup><FormControl componentClass="select" value={100*this.state.criticalBuff[i]["value"]}
-                                            onBlur={this.handleOnBlur} onChange={this.handleSelectEvent.bind(this, ["criticalBuff", i, "value"])}>{selector.criticalRateLevel}</FormControl>
-                   <InputGroup.Addon>%</InputGroup.Addon></InputGroup>
-                   <strong>{intl.translate("倍率", locale)}#{i+1}</strong>
-                   <InputGroup><FormControl componentClass="select" value={100*this.state.criticalBuff[i]["attackRatio"]}
-                                            onBlur={this.handleOnBlur} onChange={this.handleSelectEvent.bind(this, ["criticalBuff", i, "attackRatio"])}>{selector.buffLevel}</FormControl>
-                   <InputGroup.Addon>%</InputGroup.Addon></InputGroup>
-                </div>);
-        }
 
         return (
             <div className="chara-content">
@@ -673,10 +666,12 @@ var Chara = CreateClass({
                             <tr key="criticalBuff">
                                 <th className="bg-primary">{intl.translate("クリティカルバフ", locale)}</th>
                                 <td>
-                                    <strong>{intl.translate("数", locale)}</strong>
-                                    <FormControl type="number" min="0" value={this.state.criticalBuffCount}
-                                                 onBlur={this.handleOnBlur} onChange={this.handleSelectEvent.bind(this, "criticalBuffCount")}/>
-                                    {criticalBuffRender}
+                                    <CriticalBuffList locale={locale}
+                                        onBlur={this.handleOnBlur.bind(this, null)}
+                                        onCountChange={(count) => this.setState({criticalBuffCount: count})}
+                                        label="criticalBuff"
+                                        criticalArray={this.state.criticalBuff}
+                                        initialCount={this.state.criticalBuffCount} />
                                 </td>
                             </tr>,
                             <tr key="daBuff">
