@@ -47,6 +47,9 @@ supportAbilist["ta_up_all_3"] = {
 supportAbilist["data_up_wind_10_5"] = {
    u"溢れる母性"
 }
+supportAbilist["data_up_water_10_5"] = {
+  u"舞い歌う夏の巫女"
+}
 supportAbilist["da_up_fist_10"] = {
    u"古今無双流"
 }
@@ -148,10 +151,10 @@ supportAbilist["critical_up_all_5_30"] = {
 supportAbilist["critical_up_others_20_20"] = {
     u"護るべし、その笑顔"
 }
+#The effect size of "真っ二つにしてやるんだっ！" has not been verified.
 supportAbilist["damageUP_5"] = {
    u"真っ二つにしてやるんだっ！"
 }
-#The effect size of "真っ二つにしてやるんだっ！" has not been verified.
 #supportAbilist["damageUP_10"] = {u""}
 supportAbilist["damageUP_20"] = {
     u"炎帝の刃",
@@ -253,17 +256,14 @@ supportAbilist["debuff_resistance_up_own_15"] = {
 supportAbilist["debuff_resistance_up_own_80"] = {
     u"魔道の申し子"
 }
-
 supportAbilist["stamina_all_L"] = {
     u"夏祭りの思い出",
     u"不退転の戦旗",
     u"絶対だいじょうぶだよ"
 }
-
 supportAbilist["stamina_all_L_hp_down_own_15"] = {
     u"真夏の夜の夢"
 }
-
 supportAbilist["supplemental_third_hit_50k"] = {
     u"みんなのあんぜんあんしん"
 }
