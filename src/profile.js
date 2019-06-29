@@ -223,6 +223,8 @@ var Profile = CreateClass({
             personalUplift: 0,
             personalDamageLimitBuff: 0.0,
             personalOugiDamageLimitBuff: 0.0,
+            ruleMaxSize: true,
+            filterOptionsChanged: false,
             criticalBuff: [],
             criticalBuffCount: 0,
             personalCriticalBuff: [],
@@ -277,7 +279,9 @@ var Profile = CreateClass({
                 EnemyDefense.perCharaEnemyDefense = this.state.perCharaEnemyDefense;
             } else if (key == 'manualEnemyDefense') {
                 newState.enemyDefense = newState.enemyDefense in GlobalConst.enemyDefenseType ? newState.enemyDefense : 10.0;
-           }
+            } else if (key.toLowerCase().includes("rule")) {
+                newState.filterOptionsChanged = true;
+            }
         } else {
             newState[key] = e.target.value;
         }
@@ -286,7 +290,6 @@ var Profile = CreateClass({
             newState.DA = Jobs[e.target.value].DaBonus;
             newState.TA = Jobs[e.target.value].TaBonus
         }
-
         this.setState(newState);
         this.props.onChange(newState);
     },
@@ -1061,6 +1064,17 @@ var Profile = CreateClass({
                             <td>
                                 <FormControl componentClass="select" value={this.state.chainNumber}
                                              onChange={this.handleSelectEvent.bind(this, "chainNumber")}> {selector.chainNumber} </FormControl>
+                            </td>
+                        </tr>
+                    </TextWithTooltip>
+
+                    <TextWithTooltip tooltip={intl.translate("弱い編成を隠す", locale)} id={"tooltip-hide-grids"}>
+                        <tr>
+                            <th className="bg-primary">{intl.translate("弱い編成を隠す", locale)}</th>
+                            <td>
+                                <Checkbox inline checked={this.state.ruleMaxSize}
+                                          onChange={this.handleSelectEvent.bind(this, "ruleMaxSize")}>
+                                </Checkbox>
                             </td>
                         </tr>
                     </TextWithTooltip>

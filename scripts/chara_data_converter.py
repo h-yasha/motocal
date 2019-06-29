@@ -267,6 +267,9 @@ supportAbilist["knightmare_frame"] = {
   u"人型自在戦闘装甲騎",
   u"ナイトメアフレーム"
 }
+supportAbilist["stamina_all_M"] = {
+    u"黒の騎士団 総司令"
+}
 supportAbilist["stamina_all_L_hp_down_own_15"] = {
     u"真夏の夜の夢"
 }
