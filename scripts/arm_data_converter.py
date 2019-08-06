@@ -510,6 +510,16 @@ skillnamelist["magnaM"] = {
     u"黒霧方陣・攻刃": "dark"
 }
 
+# Magna hp up (S)
+skillnamelist["magnaHPS"] = {
+    u"機炎方陣・守護\(小\)": "fire",
+    u"海神方陣・守護\(小\)": "water",
+    u"創樹方陣・守護\(小\)": "earth",
+    u"嵐竜方陣・守護\(小\)": "wind",
+    u"騎解方陣・守護\(小\)": "light",
+    u"黒霧方陣・守護\(小\)": "dark"
+}
+
 skillnamelist["magnaHPM"] = {
     u"機炎方陣・守護": "fire",
     u"海神方陣・守護": "water",
@@ -655,6 +665,16 @@ skillnamelist["magnaMusouM"] = {
     u"黒霧方陣・無双": "dark"
 }
 
+# Medium hp up + double atk rate up
+skillnamelist["magnaGunshinM"] = {
+    u"機炎方陣・軍神II": "fire",
+    u"海神方陣・軍神II": "water",
+    u"創樹方陣・軍神II": "earth",
+    u"嵐竜方陣・軍神II": "wind",
+    u"騎解方陣・軍神II": "light",
+    u"黒霧方陣・軍神II": "dark"
+}
+
 # Small hp up + double atk rate up
 skillnamelist["magnaGunshinS"] = {
     u"機炎方陣・軍神": "fire",
@@ -675,8 +695,7 @@ skillnamelist["magnaCriticalM"] = {
     u"黒霧方陣・意志": "dark"
 }
 
-# Magna hp up (S)
-skillnamelist["magnaHPS"] = {
+skillnamelist["magnaFukashinS"] = {
     u"機炎方陣・不可侵": "fire",
     u"海神方陣・不可侵": "water",
     u"創樹方陣・不可侵": "earth",
@@ -801,6 +820,8 @@ skillnamelist["strengthL"] = {
     u"パワーボム": "earth",
     u"フラッドオブアームズ": "water",
     u"デヴァイサー": "wind",
+    u"シャークアタック！": "dark",
+    u"産地直送の攻刃": "water",
 }
 
 skillnamelist["exATKandHPM"] = {
@@ -961,6 +982,7 @@ skillnamelist["washiouKekkai"] = {u"鷲王の結界": "fire"}
 skillnamelist["maihimeEnbu"] = {u"舞姫の演武": "water"}
 skillnamelist["hengenKengi"] = {u"変幻自在の剣技": "dark"}
 skillnamelist["kochoKenbu"] = {u"胡蝶の剣舞": "earth"}
+skillnamelist["rigaiBishojo"] = {u"理外の美少女": "water"}
 skillnamelist["normalHPL"][u"氷晶宮の加護"] = "water"
 skillnamelist["normalL"][u"聖女の行進"] = "light"
 skillnamelist["normalL"][u"天を統べる強風"] = "wind"

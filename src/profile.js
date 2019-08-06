@@ -230,6 +230,7 @@ var Profile = CreateClass({
             personalCriticalBuff: [],
             personalCriticalBuffCount: 0,
             retsujitsuNoRakuen: false,
+            shiToAiNoSekai: false,
         };
     },
     switchBufflist: function (e) {
@@ -388,6 +389,7 @@ var Profile = CreateClass({
                         [
 
                     <TextWithTooltip tooltip={intl.translate("残HP割合説明(ジータのみ)", locale)}
+                                     key={"remainHP"}
                                      id={"tooltip-remain-hp-djeeta-detail"}>
                         <tr>
                             <th className="bg-primary">
@@ -435,7 +437,7 @@ var Profile = CreateClass({
                                 <th className="bg-primary">{intl.translate("クリティカルバフ", locale)}</th>
                                 <td>
                                     <CriticalBuffList locale={locale}
-                                        onBlur={this.handleOnBlur.bind(this)}
+                                        onBlur={this.handleOnBlur}
                                         onCountChange={(count) => this.setState({personalCriticalBuffCount: count})}
                                         label="personalCriticalBuff"
                                         criticalArray={this.state.personalCriticalBuff}
@@ -660,7 +662,7 @@ var Profile = CreateClass({
 
                     {this.state.openLBlist ?
                         [
-                    <TextWithTooltip tooltip={intl.translate("LB 属性攻撃の説明", locale)} id={"tooltip-critical-zenith-detail"}>
+                    <TextWithTooltip tooltip={intl.translate("LB 属性攻撃の説明", locale)} id={"tooltip-critical-zenith-detail"} key={"zenithElementBonus"}>
                         <tr>
                             <th className="bg-primary">{intl.translate("LB 属性攻撃", locale)}</th>
                             <td><FormControl componentClass="select" value={this.state.zenithElementBonus}
@@ -669,7 +671,7 @@ var Profile = CreateClass({
                         </tr>
                     </TextWithTooltip>,
 
-                    <TextWithTooltip tooltip={intl.translate("LB チェンバの説明", locale)} id={"tooltip-chaindamage-zenith-detail"}>
+                    <TextWithTooltip tooltip={intl.translate("LB チェンバの説明", locale)} id={"tooltip-chaindamage-zenith-detail"} key={"zenithChainDamageBonus"}>
                         <tr>
                             <th className="bg-primary">{intl.translate("LB チェンバ", locale)}</th>
                             <td><FormControl componentClass="select" value={this.state.zenithChainDamageBonus}
@@ -678,7 +680,7 @@ var Profile = CreateClass({
                         </tr>
                     </TextWithTooltip>,
 
-                    <TextWithTooltip tooltip={intl.translate("LB チェンバ上限の説明", locale)} id={"tooltip-chaindamagelimit-zenith-detail"}>
+                    <TextWithTooltip tooltip={intl.translate("LB チェンバ上限の説明", locale)} id={"tooltip-chaindamagelimit-zenith-detail"} key={"zenithChainDamageLimitBonus"}>
                         <tr>
                             <th className="bg-primary">{intl.translate("LB チェンバ上限", locale)}</th>
                             <td><FormControl componentClass="select" value={this.state.zenithChainDamageLimitBonus}
@@ -687,7 +689,7 @@ var Profile = CreateClass({
                         </tr>
                     </TextWithTooltip>,
 
-                    <TextWithTooltip tooltip={intl.translate("得意武器攻撃の説明", locale)} id={"tooltip-weapon-zenith-detail"}>
+                    <TextWithTooltip tooltip={intl.translate("得意武器攻撃の説明", locale)} id={"tooltip-weapon-zenith-detail"} key={"zenithBonus1"}>
                         <tr>
                             <th className="bg-primary">
                                 {intl.translate("得意武器攻撃1", locale)}({intl.translate(armTypes[Jobs[this.state.job].favArm1], locale)})
@@ -698,7 +700,7 @@ var Profile = CreateClass({
                         </tr>
                     </TextWithTooltip>,
 
-                    <TextWithTooltip tooltip={intl.translate("得意武器攻撃の説明", locale)} id={"tooltip-weapon-zenith-detail"}>
+                    <TextWithTooltip tooltip={intl.translate("得意武器攻撃の説明", locale)} id={"tooltip-weapon-zenith-detail"} key={"zenithBonus2"}>
                         <tr>
                             <th className="bg-primary">
                                 {intl.translate("得意武器攻撃2", locale)}({intl.translate(armTypes[Jobs[this.state.job].favArm2], locale)})
@@ -775,7 +777,7 @@ var Profile = CreateClass({
                             <th className="bg-primary">{intl.translate("クリティカルバフ", locale)}</th>
                             <td>
                                 <CriticalBuffList locale={locale}
-                                    onBlur={this.handleOnBlur.bind(this)}
+                                    onBlur={this.handleOnBlur}
                                     onCountChange={(count) => this.setState({criticalBuffCount: count})}
                                     label="criticalBuff"
                                     criticalArray={this.state.criticalBuff}
@@ -1005,17 +1007,31 @@ var Profile = CreateClass({
                         </tr>
                     </TextWithTooltip>
 
-                    <TextWithTooltip tooltip={intl.translate("烈日の楽園説明", locale)} id={"tooltip-sun-touched-paradise-detail"}>
-                        <tr>
-                            <th className="bg-primary">{intl.translate("特殊効果", locale)}</th>
-                                <td>
-                                    <Checkbox inline checked={this.state.retsujitsuNoRakuen}
-                                              onChange={this.handleSelectEvent.bind(this, "retsujitsuNoRakuen")}>
-                                        <strong>{intl.translate("烈日の楽園", locale)}</strong>
+
+                    <tr>
+                        <th className="bg-primary">{intl.translate("特殊効果", locale)}</th>
+                        <td>
+                        <TextWithTooltip tooltip={intl.translate("烈日の楽園説明", locale)} id={"tooltip-sun-touched-paradise-detail"}>
+                            <tr>
+
+                                <Checkbox inline checked={this.state.retsujitsuNoRakuen}
+                                          onChange={this.handleSelectEvent.bind(this, "retsujitsuNoRakuen")}>
+                                    <strong>{intl.translate("烈日の楽園", locale)}</strong>
+                                </Checkbox>
+                            </tr>
+                        </TextWithTooltip>
+                        <TextWithTooltip tooltip={intl.translate("死ト愛ノ世界説明", locale)} id={"tooltip-world-of-death-and-love-detail"}>
+                            <tr>
+                                    <Checkbox inline checked={this.state.shiToAiNoSekai}
+                                              onChange={this.handleSelectEvent.bind(this, "shiToAiNoSekai")}>
+                                        <strong>{intl.translate("死ト愛ノ世界", locale)}</strong>
                                     </Checkbox>
-                                </td>
-                        </tr>
-                    </TextWithTooltip>
+
+                            </tr>
+                        </TextWithTooltip>
+                        </td>
+                    </tr>
+
 
                     <TextWithTooltip tooltip={intl.translate("ジータさん基礎DA率説明", locale)}
                                      id={"tooltip-player-baseda-detail"}>
