@@ -25,9 +25,11 @@ charatypelist[u"バランス"] = "balance"
 charatypelist[u"特殊"] = "pecu"
 
 racelist = OrderedDict()
+racelist[u"ヒューマン/エルーン"] = "human/erune"
 racelist[u"ヒューマン"] = "human"
 racelist[u"ドラフ"] = "doraf"
 racelist[u"エルーン"] = "erune"
+racelist[u"ハーヴィン/ヒューマン"] = "havin/human"
 racelist[u"ハーヴィン"] = "havin"
 racelist[u"星晶獣"] = "seisho"
 racelist[u"不明"] = "unknown"
@@ -141,6 +143,9 @@ supportAbilist["recklessness_incarnate"] = {
 }
 supportAbilist["ougi_damage_up_50"] = {
     u"天星剣王"
+}
+supportAbilist["ougi_damage_up_10"] = {
+    u"音ノ木坂学院2年生"
 }
 supportAbilist["emnity_all_SL10"] = {
     u"太陽信仰"
@@ -298,7 +303,12 @@ supportAbilist["stamina_all_L_hp_down_own_15"] = {
 supportAbilist["supplemental_third_hit_50k"] = {
     u"みんなのあんぜんあんしん"
 }
-
+supportAbilist["benedikutosu_soure"] = {
+    u"太陽の逆位置" #placeholder for ougi effect not the support ability effect
+}
+supportAbilist["otherbuff_own_30"] = {
+    u"アインザーム"
+}
 # Patching DA TA
 patching = OrderedDict()
 
@@ -594,6 +604,7 @@ patchingOugiRatio["ノイシュ(火属性ver)"] = {"ougiRatio": 4.0}
 patchingOugiRatio["ティナ"] = {"ougiRatio": 4.0}
 patchingOugiRatio["城ヶ崎莉嘉"] = {"ougiRatio": 4.0}
 patchingOugiRatio["シャオ"] = {"ougiRatio": 4.0}
+patchingOugiRatio["カタリナ"] = {"ougiRatio": 4.0}
 
 ### SR (Other)
 patchingOugiRatio["カタリナ(水着ver)"] = {"ougiRatio": 3.7}
