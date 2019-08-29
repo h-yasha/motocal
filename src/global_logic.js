@@ -2929,8 +2929,6 @@ module.exports.treatSupportAbility = function (totals, chara, buff) {
                 case "multiply":
                     chara[support.type] = ((1.0 + chara[support.type]) * (1.0 + support.value)) - 1.0;
                 }
-            } else if (support.range == "Djeeta") {
-                totals["Djeeta"][support.type] += support.value;
             }
         }
     }
