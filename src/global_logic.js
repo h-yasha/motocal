@@ -1649,20 +1649,20 @@ module.exports.addSkilldataToTotals = function (totals, comb, arml, buff) {
                     if (stype == 'bahaAT') {
                         if (!isBahaAtIncluded && bahaRaceCharaContains(skillname, totals[key])) {
                             // Baha dagger etc.
-                            totals[key]["bahaAT"] += comb[i] * skillAmounts["bahaAT"][amount][slv - 1];
+                            totals[key]["bahaAT"] += comb[i] * skillAmounts["bahaAT"]["AT"][slv - 1];
                             isBahaAtIncluded = true;
                         }
                     } else if (stype == 'bahaATHP') {
                         if (!isBahaAthpIncluded && bahaRaceCharaContains(skillname, totals[key])) {
                             // Baha sword etc.
-                            totals[key]["bahaAT"] += comb[i] * skillAmounts["bahaAT"][amount][slv - 1];
-                            totals[key]["bahaHP"] += comb[i] * skillAmounts["bahaHP"][amount][slv - 1];
+                            totals[key]["bahaAT"] += comb[i] * skillAmounts["bahaATHP"]["AT"][slv - 1];
+                            totals[key]["bahaHP"] += comb[i] * skillAmounts["bahaATHP"]["HP"][slv - 1];
                             isBahaAthpIncluded = true;
                         }
                     } else if (stype == 'bahaHP') {
                         if (!isBahaHpIncluded && bahaRaceCharaContains(skillname, totals[key])) {
                             // Baha Fist etc
-                            totals[key]["bahaHP"] += comb[i] * skillAmounts["bahaHP"][amount][slv - 1];
+                            totals[key]["bahaHP"] += comb[i] * skillAmounts["bahaHP"]["HP"][slv - 1];
                             isBahaHpIncluded = true;
                         }
                     } else if (stype == 'bahaFUATHP') {
@@ -2064,9 +2064,9 @@ module.exports.addSkilldataToTotals = function (totals, comb, arml, buff) {
                                 totals[key]["magna"] += comb[i] * skillAmounts["magna"][amount][slv - 1];
                             }
                         } else if (stype == 'opusnormalElement') {
-                            totals[key][stype] += 0.15;
+                            totals[key][stype] += skillAmounts["darkOpusElementATK"][amount][slv - 1];
                         } else if (stype == 'opusmagnaElement') {
-                            totals[key][stype] += 0.15;
+                            totals[key][stype] += skillAmounts["darkOpusElementATK"][amount][slv - 1];
                         } else if (stype == 'shinTenNoInori') {
                             totals[key][stype] = [amount, Math.max(totals[key][stype][1], arm[skillkey + "Detail"])];
                         } else {
