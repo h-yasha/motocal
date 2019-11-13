@@ -90,35 +90,36 @@ var Root = CreateClass({
     },
     getDatacharById: function (id) {
         $.ajax({
-            url: "getdata.php",
-            type: 'POST',
-            dataType: 'text',
+            url: "https://yasha-motocal-data-holder.firebaseio.com/"+id+"/.json",
+            type: 'GET',
             cache: false,
             timeout: 10000,
-            data: {id: id},
-            success: function (data, datatype) {
-                var initState = JSON.parse(Base64.decode(data));
-                var oldState = this.state;
-                initState["noResultUpdate"] = false;
-                initState["oldWidth"] = oldState.oldWidth;
-                initState["activeKey"] = "inputTab";
-                initState["rootleftHeight"] = oldState.rootleftHeight;
-                initState["rootleftWidth"] = oldState.rootleftWidth;
-                initState["rootrightHeight"] = oldState.rootrightHeight;
-                initState["rootrightWidth"] = oldState.rootrightWidth;
-                initState["locale"] = intl.getLocale();
-                initState["dataName"] = "serverData";
+            success: function (data) {
+                if (data != "null") {
+                    var initState = data;
+                    var oldState = this.state;
+                    initState["noResultUpdate"] = false;
+                    initState["oldWidth"] = oldState.oldWidth;
+                    initState["activeKey"] = "inputTab";
+                    initState["rootleftHeight"] = oldState.rootleftHeight;
+                    initState["rootleftWidth"] = oldState.rootleftWidth;
+                    initState["rootrightHeight"] = oldState.rootrightHeight;
+                    initState["rootrightWidth"] = oldState.rootrightWidth;
+                    initState["locale"] = intl.getLocale();
+                    initState["dataName"] = "serverData";
 
-                if (initState["dataForLoad"] == undefined) {
-                    initState["dataForLoad"] = {}
+                    if (initState["dataForLoad"] == undefined) {
+                        initState["dataForLoad"] = {};
+                    }
+
+                    initState["dataForLoad"]["profile"] = initState.profile;
+                    initState["dataForLoad"]["summon"] = initState.summon;
+                    initState["dataForLoad"]["chara"] = initState.chara;
+                    initState["dataForLoad"]["armlist"] = initState.armlist;
+
+                    this.setState(initState);
                 }
-
-                initState["dataForLoad"]["profile"] = initState.profile;
-                initState["dataForLoad"]["summon"] = initState.summon;
-                initState["dataForLoad"]["chara"] = initState.chara;
-                initState["dataForLoad"]["armlist"] = initState.armlist;
-
-                this.setState(initState);
+                else throw "Not Found!";
             }.bind(this),
             error: function (xhr, status, err) {
                 alert("Error!: IDが不正です. status: ", status, ", error message: ", err.toString());
@@ -688,20 +689,15 @@ var TwitterShareButton = CreateClass({
             // if Sys.dataName is empty
             data["dataName"] = "savedData";
         }
-
         $.ajax({
-            url: "getshort.php",
+            url: "http://yasha-motocal-cheat.herokuapp.com",
             type: 'POST',
             dataType: 'text',
             cache: false,
-            timeout: 10000,
-            data: {datachar: Base64.encodeURI(JSON.stringify(data))},
-            success: function (data, datatype) {
+            timeout: 30000,
+            data: "THISISDATA" + Base64.toBase64(JSON.stringify(data)),
+            success: function(data, datatype) {
                 var shareurl = `${location.origin}${location.pathname}?id=${data}`;
-                var tweeturl = 'https://twitter.com/intent/tweet?';
-                tweeturl += 'text=' + intl.translate("motocal", this.props.locale);
-                tweeturl += '&url=' + shareurl;
-                window.open(tweeturl, '_blank');
                 var sharehist = this.state.shareurl_history;
                 sharehist[this.props.data["dataName"]] = shareurl;
                 this.setState({shareurl: shareurl, shareurl_history: sharehist});
