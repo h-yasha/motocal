@@ -288,6 +288,7 @@ var ResultList = CreateClass({
         this.setState({openHPChart: true})
     },
     addHaisuiData: function (id, summonid) {
+        var locale = this.props.locale;
         var newStored = this.state.storedList;
         var newCombinations = this.state.result.result[summonid][id].armNumbers;
         newStored["combinations"].push(JSON.parse(JSON.stringify(newCombinations)));
@@ -296,8 +297,8 @@ var ResultList = CreateClass({
         var title = "";
         for (var i = 0; i < this.props.armlist.length; i++) {
             if (newCombinations[i] > 0) {
-                var name = (this.props.armlist[i].name == "") ? "武器" + i.toString() + "" : this.props.armlist[i].name;
-                title += name + newCombinations[i] + "本\n"
+                var name = (this.props.armlist[i].name == "") ? intl.translate("武器", locale) + i.toString() + " " : this.props.armlist[i].name;
+                title += name + newCombinations[i] + intl.translate("本", locale) + "\n"
             }
         }
         newStored["names"].push(title);
@@ -1256,7 +1257,7 @@ var Result = CreateClass({
                         let damageSupplemental = 0, damageWithoutCriticalSupplemental = 0, ougiDamageSupplemental = 0, chainBurstSupplemental = 0;
                         [damageSupplemental, damageWithoutCriticalSupplemental, ougiDamageSupplemental, chainBurstSupplemental] = supplemental.calcOthersDamage(m.data[key].skilldata.supplementalDamageArray, [damageSupplemental, damageWithoutCriticalSupplemental, ougiDamageSupplemental, chainBurstSupplemental], {remainHP: m.data[key].remainHP});
                         
-                        let normalDamageRealLimit = createRealLimitValues(m.data[key].normalDamageLimitValues, m.data[key].skilldata.damageUP, m.data[key].skilldata.enemyResistance, 0, 0, damageSupplemental);
+                        let normalDamageRealLimit = createRealLimitValues(m.data[key].normalDamageLimitValues, m.data[key].skilldata.damageUPOnlyNormalDamage, m.data[key].skilldata.enemyResistance, 0, 0, damageSupplemental);
                         let ougiDamageRealLimit = createRealLimitValues(m.data[key].ougiDamageLimitValues, m.data[key].skilldata.damageUP, m.data[key].skilldata.enemyResistance, m.data[key].ougiFixedDamage, m.data[key].criticalRatio, ougiDamageSupplemental);
                         
                         charaDetail[key].push(
@@ -1439,7 +1440,8 @@ var Result = CreateClass({
                         };
                         pushSkillInfoElement3("ougiGageBuff", "奥義ゲージ上昇量", "default");
                         pushSkillInfoElement3("additionalDamage", "追加ダメージ", "default");
-                        pushSkillInfoElement3("damageUP", "与ダメージ上昇", "default");
+                        pushSkillInfoElement3("damageUP", "与ダメージUP", "default");
+                        pushSkillInfoElement3("damageUPOnlyNormalDamage", "与ダメージUP(通常攻撃のみ)", "default");
                         pushSkillInfoElement3("damageLimit", "ダメージ上限アップ", "default");
                         pushSkillInfoElement3("ougiDamageLimit", "奥義ダメージ上限アップ", "default");
                         pushSkillInfoElement3("ougiDamageUP", "奥義ダメージアップ", "default");
@@ -1563,7 +1565,7 @@ var StoredListEditor = CreateClass({
                             <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>編成名(Optional)</th>
+                                <th>{intl.translate("編成名", locale)}(Optional)</th>
                                 {(armlist.length != 0) ? (armlist[0].map(function (arm, ind) {
                                     if (arm.name != "") {
                                         return (<th key={ind}>{arm.name}</th>);
